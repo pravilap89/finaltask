@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Movie Details
+                </div>
+                <div class="card-body">
+                    <img src="{{movie.poster.url}}" width="100px" height="100px"/><br>
+                    <h5 class="card-title">{{movie.title}}</h5>
+                    <p class="card-text">{{movie.description}}</p>
+                    <p>
+                        {{movie.release}}
+                    </p>
+                    <a class="btn btn-info" href="{% url 'movie:movie_review' movie.id%}">Review </a>
+                    {% if user.id == movie.user.id %}
+                    <a class="btn btn-warning" href="{% url 'movie:movie_update' movie.id%}"> Update </a>
+                    <a class="btn btn-danger" href="{% url 'movie:movie_delete' movie.id%}">Delete </a>
+                    {% endif %}
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<script src="{% static 'js/jquery-3.7.1.min.js' %}" crossorigin="anonymous"></script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="p-3 mb-2 bg-secondary text-white">
+                <h5>Add Movie</h5>
+            </div>
+            <h3>{% for msg in messages %}
+                {{msg}}
+                {% endfor %}</h3>
+            <form method="POST" action="#" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for fm in form %}
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label class="form-label">{{fm.label}}</label>
+                        {{fm}}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="mb-3 mt-2">
+                    <input type="submit" value="Submit" style="clear:left" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

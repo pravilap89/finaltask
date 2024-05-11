@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <div class="row mx_auto">
+        {% for movie in movies.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4">
+            <div class="card text-center " style="min-width:18em">
+                <a href="{{movie.get_url}}">
+                    <img  class="card-img-top my_image" src="{{movie.poster.url}}" alt="{{movie.title}}"></a>
+            </div>
+            <div class="card-body">
+                <h4>{{movie.title}}</h4>
+                <p>{{movie.description}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mx_auto">
+        {% if movies.paginator.num_pages > 1 %}
+        <hr>
+        <div class="text-center">
+            {% for pg in movies.paginator.page_range %}
+                <a href="?page={{pg}}" class="btn bt-sm btn-light {% if movies.number ==  pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+
+
+
+
+{% endblock %}

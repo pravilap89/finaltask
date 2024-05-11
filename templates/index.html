@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="banner">
+                <div class="banner-text">
+                    <img src="{% static 'img/fjords.jpg' %}" alt="Fjords" style="width:100%;height:300px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mt-2 mb-3 " >
+            <a href="{% url 'movie:movie_add' %}" style="float:right"><button class="btn btn-sm btn-info">Add Movie</button></a>
+        </div>
+    {% for i in movie_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card" >
+                <img class="card-img-top" src="{{i.poster.url}}" alt="Card image cap" width="100px" height="120px">
+                <div class="card-body">
+                    <h5 class="card-title">{{i.title}}</h5>
+                    <p class="card-text"> {{i.description}}</p>
+                    <a href="{% url 'movie:movie_details' i.id %}" class="btn btn-secondary btn-sm">View</a>
+                    <a href="{% url 'movie:movie_review' i.id %}" class="btn btn-info btn-sm">Review</a>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

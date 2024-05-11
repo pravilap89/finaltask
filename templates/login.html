@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body  %}
+{% for i in messages %}
+{{i}}
+{% endfor %}
+<form action="login" method="post">
+    {% csrf_token %}
+    <div class="container">
+        <div class="mb-3">
+            <label for="username" class="form-label"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" required class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required class="form-control">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

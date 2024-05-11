@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 shadow-lg">
+            <div class="p-3 mb-2 bg-secondary text-white">
+                <h5>Update Profile</h5>
+
+            </div>
+            <h6 class="p-3" style="height:40px;color:red;">{% for msg in messages %}
+                {{msg}}
+                {% endfor %}</h6>
+            <div class="p-3 mb-2 bg-gradient-warning text-dark">
+                <form method="POST" class="mb-3">
+                    {% csrf_token %}
+                    {% for fm in form %}
+                    <div class="form-group">
+                        <label>{{fm.label}}</label>
+                        <p>{{fm}} </p>
+                    </div>
+                    {% endfor %}
+                    <input class="btn btn-danger" type="submit" value="Update"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

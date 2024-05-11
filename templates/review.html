@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% block body %}
+<style>
+    .review_detail span{
+        color:#73bb6e;
+    }
+
+    .rating {
+  display: inline-block;
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  font-size: 30px;
+}
+
+.rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating label:last-child {
+  position: static;
+}
+
+.rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.rating label:last-child .icon {
+  color: #000;
+}
+
+.rating:not(:hover) label input:checked ~ .icon,
+.rating:hover label:hover input ~ .icon {
+  color: #09f;
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px #09f;
+}
+</style>
+<script>
+    $(':radio').change(function() {
+  console.log('New star rating: ' + this.value);
+});
+</script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 mb-4 ">
+            <div class="card">
+                <div class="card-header">
+                    Update Review
+                </div>
+                <div class="card-body  " style="margin:0">
+                    <img src="{{ movie.poster.url }}" width="100px" height="100px"/><br>
+                    <h5 class="card-title">{{movie.title}}</h5>
+                    <p class="card-text">{{movie.description}}</p>
+                    <p>
+                        {{movie.release}}
+                    </p>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <div class="form-group">
+                                <textarea name="comments" class="form-control">{{ movie_review.comments }}</textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 rating">
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" name="stars" value="1" {% if movie_review.rating == 1 %}
+                                           checked="true" {% endif %}/>
+                                    <span class="icon">★</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="stars" value="2" {% if movie_review.rating == 2 %}
+                                           checked="true" {% endif %}/>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="stars" value="3" {% if movie_review.rating == 3 %}
+                                           checked="true" {% endif %}/>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="stars" value="4" {% if movie_review.rating == 4 %}
+                                           checked="true" {% endif %}/>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="stars" value="5" {% if movie_review.rating == 5 %}
+                                           checked="true" {% endif %}/>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-group">
+                                <input type="submit" value="Submit" class="btn  btn-info">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 mb-4">
+            <div class="card" style="width=100%">
+                <div class="card-header">
+                    All Reviews
+                </div>
+                <div class="card-body review_detail">
+                    {% for m_review in all_review.object_list %}
+                    <p><b>{{ m_review.user.first_name }} : </b>{{ m_review.comments }}
+                        {% if m_review.rating >= 1 %}
+                            <span class="icon">★</span>
+                        {% endif %}
+                        {% if m_review.rating >= 2 %}
+                            <span class="icon">★</span>
+                        {% endif %}
+                        {% if m_review.rating >= 3 %}
+                            <span class="icon">★</span>
+                        {% endif %}
+                        {% if m_review.rating >= 4 %}
+                            <span class="icon">★</span>
+                        {% endif %}
+                        {% if m_review.rating >= 5 %}
+                            <span class="icon">★</span>
+                        {% endif %}
+                    </p>
+                    <hr/>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="mx_auto">
+                {% if all_review.paginator.num_pages > 1 %}
+                <hr>
+                <div class="text-center">
+                    {% for pg in all_review.paginator.page_range %}
+                    <a href="?page={{pg}}"
+                       class="btn bt-sm btn-light {% if movies.number     ==  pg %} active {% endif %}">{{pg}}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}
